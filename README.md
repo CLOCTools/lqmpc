@@ -1,4 +1,6 @@
+
 ---
+
 ## Linear Quadratic Model Predictive Control
 
 *Simulate Model Predictive Control (MPC) by converting the MPC optimization problem to a Linear Quadratic problem. The new problem is optimized using the Operator Splitting Quadratic Program (OSQP).*
@@ -9,7 +11,7 @@
 
 ---
 
-#### Imports
+### Imports
 
 We make use of [OSQP](https://osqp.org/docs/index.html) in order to calculate optimal trajectories. OSQP does not have to be directly imported, but is used within LQMPC. Scipy is used for efficient sparse matrix operations.
 
@@ -20,7 +22,7 @@ from scipy import sparse
 import lqmpc
 ```
 
-#### Dynamics
+### Dynamics
 
 In our example, we take a linear dynamical system describing the spiking behavior of a population of neurons.
 
@@ -42,7 +44,7 @@ n, m = B.shape
 t_step = 0.001                                                                  # Dynamics for 1 ms
 ```
 
-#### Cost Function
+### Cost Function
 
 We define a cost function which includes the ability to have a state penalty, input penalty, and differential input penalty. The state penalties occur over the prediction horizon while the input penalties over the control horizon. MPC subjects this cost function to particular constraints:
 
@@ -68,7 +70,7 @@ x0 = np.zeros(n)                                                                
 u0 = np.zeros(m)                                                                # Initial input
 ```
 
-#### Reference
+### Reference
 
 When using LQMPC, state references can be supplied per step or for a full simulation loop. For this example, we aim to clamp the output spiking rate, represented with a peri-stimulus time histogram (PSTH), to a sine reference. We use a non-linear function to convert the control ouput to the PSTH.
 
@@ -96,7 +98,7 @@ ur = inv(C@inv(I-A)@B)@yr
 xr = inv(I-A)@B@ur                                                              # Full reference state
 ```
 
-#### Simulate
+### Simulate
 
 Now that we have prepared all the necessary inputs, we can simulate the system with control dynamics. There is also an option to print out how long it takes to run a simulation step or full loop.
 
