@@ -27,6 +27,7 @@ import lqmpc
 In our example, we take a linear dynamical system describing the spiking behavior of a population of neurons.
 
 $$ x_{t+1} = Ax_{t} + Bu_{t} $$
+
 $$ y_{t} = Cx_{t} $$
 
 We take $x\in\mathbb{R}^n$, $u\in\mathbb{R}^m$, and $y\in\mathbb{R}^o$.
@@ -49,9 +50,13 @@ t_step = 0.001                                                                  
 We define a cost function which includes the ability to have a state penalty, input penalty, and differential input penalty. The state penalties occur over the prediction horizon while the input penalties over the control horizon. MPC subjects this cost function to particular constraints:
 
 $$ J = \sum_{i=1}^N (x_i-x_r)^TQ(x_i-x_r) + \sum_{i=1}^M u_i^TRu_i + \Delta u_i^T S \Delta u_i $$
+
 $$ x_{i+1} = Ax_{i} + Bu_{i} $$
+
 $$ x_{min} \leq x \leq x_{max} $$
+
 $$ u_{min} \leq u \leq u_{max} $$
+
 $$ x_1 = x_0 $$
 
 where $ N $ is the prediction horizon, $M$ the control horizon, $Q$ the state penalty matrix, $R$ the input penalty matrix, $S$ the differential input penalty matrix, $x_r$ the reference state, and $x_0$ a varying initial state provided on each step. To calculate the first differential input $\Delta u_1=u_1-u_0$, an initial input $u_0$ will be defined only for the calculation of cost.
