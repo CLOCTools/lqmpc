@@ -262,7 +262,7 @@ class LQMPC:
             else:
                 self.t.append(self.t[-1]+self.t_step)                           # Save time value
                 self.u.append(ui)                                               # Save input value
-            yr = self.C@xr[:,i]                                                 # Compute target
+            yr = (self.C+self.D@np.linalg.pinv(self.B)@(np.eye(self.n)-self.A))@xr[:,i]           
             self.yr.append(yr)                                                  # Save target output value
             self.y.append(self.C@xi+self.D@ui)                                  # Save output value
             self.J.append(result.info.obj_val)                                  # Save cost function value

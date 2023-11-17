@@ -3,7 +3,7 @@
 
 ## Linear Quadratic Model Predictive Control
 
-*Simulate Model Predictive Control (MPC) by converting the MPC optimization problem to a Linear Quadratic problem. The new problem is optimized using the Operator Splitting Quadratic Program (OSQP).*
+*Perform Model Predictive Control (MPC) on linear system dynamics by converting the MPC optimization problem to a quadratic cost problem. The new problem is optimized using the Operator Splitting Quadratic Program (OSQP).*
 
 **Jake Miller and Kyle Johnsen**  
 **SIP Lab**   
