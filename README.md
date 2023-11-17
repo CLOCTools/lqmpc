@@ -28,7 +28,7 @@ In our example, we take a linear dynamical system describing the spiking behavio
 
 $$ x_{t+1} = Ax_{t} + Bu_{t} $$
 
-$$ y_{t} = Cx_{t} $$
+$$ y_{t} = Cx_{t} + Du_{t} $$
 
 We take $x\in\mathbb{R}^n$, $u\in\mathbb{R}^m$, and $y\in\mathbb{R}^o$.
 

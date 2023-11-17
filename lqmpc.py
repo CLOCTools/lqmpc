@@ -264,7 +264,7 @@ class LQMPC:
                 self.u.append(ui)                                               # Save input value
             yr = self.C@xr[:,i]                                                 # Compute target
             self.yr.append(yr)                                                  # Save target output value
-            self.y.append(self.C@xi)                                            # Save output value
+            self.y.append(self.C@xi+self.D@ui)                                  # Save output value
             self.J.append(result.info.obj_val)                                  # Save cost function value
             xi = self.A@xi + self.B@ui                                          # Update current state                  
         self.xi = xi
