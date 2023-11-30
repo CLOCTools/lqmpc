@@ -199,7 +199,8 @@ $I$ denotes the identity matrix and $I_{-1,1}$ denotes the matrix with all zeros
 
 For $N = 5$ and $M=3$, we exemplify $Px$:
 
-$$ Px=
+```math
+Px=
 \begin{bmatrix} 
 Q & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
 0 & Q & 0 & 0 & 0 & 0 & 0 & 0 \\
@@ -211,7 +212,7 @@ Q & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
 0 & 0 & 0 & 0 & 0 & 0 & -S & R + S 
 \end{bmatrix}
 \begin{bmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ u_1 \\ u_2 \\ u_3 \end{bmatrix}
-$$
+```
 
 Our cost function also has a term linear in $x$, $q$, where we can define the cost of deviating from the reference since $x_r$ is not accounted for in $x^TPx$. We exemplify $q$ for $N=5$ and $M=3$ as:
 
@@ -281,7 +282,7 @@ $$ B_u = \begin{bmatrix} 0^{1\times M} \\ I^{M\times M} \\ \begin{bmatrix} 0^{(N
 
 How this produces the equality constraints is much clearer if we exemplify $A_{eq}$ for $N=5$ and $M=3$:
 
-$$ 
+```math
 A_{eq}x=
 \begin{bmatrix} 
 I & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
@@ -290,9 +291,9 @@ I & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
 0 & 0 & -A_{x_s} & I & 0 & 0 & 0 & A_{u_s}B \\
 0 & 0 & 0 & -A_{x_s} & I & 0 & 0 & A_{u_s}B \\
 \end{bmatrix}
-\begin{bmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ u_1 \\ u_2 \\ u_3 \end{bmatrix}= 
+\begin{bmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ u_1 \\ u_2 \\ u_3 \end{bmatrix}=
 \begin{bmatrix} x_0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{bmatrix}=l_{eq}=u_{eq}
-$$
+```
 
 We can see that as standard with a control horizon, after we have computed $M$ control inputs, the final steps in the prediction horizon will keep the last input constant. This matrix will also enforce that $x_1=x_0$. 
 
