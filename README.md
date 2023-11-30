@@ -1,4 +1,6 @@
+
 ---
+
 ## Linear Quadratic Model Predictive Control
 
 *Perform Model Predictive Control (MPC) on linear system dynamics by converting the MPC optimization problem to a quadratic cost problem. The new problem is optimized using the Operator Splitting Quadratic Program (OSQP).*
@@ -214,7 +216,7 @@ $$
 Our cost function also has a term linear in $x$, $q$, where we can define the cost of deviating from the reference since $x_r$ is not accounted for in $x^TPx$. We exemplify $q$ for $N=5$ and $M=3$ as:
 
 $$ 
-\begin{bmatrix} -2Qx_{r_1}\\-2Qx_{r_2}\\-2Qx_{r_3}\\-2Qx_{r_4}\\-2Qx_{r_5}\\-2Su_{0}\\0\\0 \end{bmatrix}
+\begin{bmatrix} -2Qx_{r_1} \\ -2Qx_{r_2} \\ -2Qx_{r_3} \\ -2Qx_{r_4} \\ -2Qx_{r_5} \\ -2Su_{0} \\ 0 \\ 0 \end{bmatrix}
 $$
 
 where $q\in\mathbb{R}^{Nn+Mm}$. We will now show that our new matrix-based structure of the cost function $J^{OSQP}$ is consistent with the summation definition of our MPC cost function $J^{MPC}$.
@@ -279,7 +281,8 @@ $$ B_u = \begin{bmatrix} 0^{1\times M} \\ I^{M\times M} \\ \begin{bmatrix} 0^{(N
 
 How this produces the equality constraints is much clearer if we exemplify $A_{eq}$ for $N=5$ and $M=3$:
 
-$$ A_{eq}x=
+$$ 
+A_{eq}x=
 \begin{bmatrix} 
 I & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
 -A_{x_s} & I & 0 & 0 & 0 & A_{u_s}B & 0 & 0 \\
@@ -287,8 +290,7 @@ I & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
 0 & 0 & -A_{x_s} & I & 0 & 0 & 0 & A_{u_s}B \\
 0 & 0 & 0 & -A_{x_s} & I & 0 & 0 & A_{u_s}B \\
 \end{bmatrix}
-\begin{bmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ u_1 \\ u_2 \\ u_3 \end{bmatrix}
-= 
+\begin{bmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ u_1 \\ u_2 \\ u_3 \end{bmatrix} = 
 \begin{bmatrix} x_0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{bmatrix}=l_{eq}=u_{eq}
 $$
 
