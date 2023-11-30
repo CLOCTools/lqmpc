@@ -290,7 +290,7 @@ I & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
 0 & 0 & -A_{x_s} & I & 0 & 0 & 0 & A_{u_s}B \\
 0 & 0 & 0 & -A_{x_s} & I & 0 & 0 & A_{u_s}B \\
 \end{bmatrix}
-\begin{bmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ u_1 \\ u_2 \\ u_3 \end{bmatrix} = 
+\begin{bmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ u_1 \\ u_2 \\ u_3 \end{bmatrix}= 
 \begin{bmatrix} x_0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{bmatrix}=l_{eq}=u_{eq}
 $$
 
