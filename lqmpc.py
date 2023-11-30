@@ -229,7 +229,7 @@ class LQMPC:
             t_sim : Simulation time step (s)
             x0 : Initial state (n)
             u0 : Initial input (m)
-            xr : Reference/Target state (n x n_sim)
+            xr : Reference/Target state (n x N*n_sim)
             out : Print out step information
         Returns-----
             result : Optimal trajectories from OSQP
@@ -244,8 +244,8 @@ class LQMPC:
             raise ValueError('Array x0 must be one-dimensional with size n.')
         if u0.shape[0] != self.m or u0.ndim != 1:
             raise ValueError('Array u0 must be one-dimensional with size m.')
-        if xr.shape[0] != self.n or xr.shape[1] < self.n_sim:
-            raise ValueError('Step reference must have n-many rows and at least n_sim-many columns.')
+        if xr.shape[0] != self.n or xr.shape[1] < self.N*self.n_sim:
+            raise ValueError('Step reference must have n-many rows and at least N*n_sim many columns.')
 
         if (self.xi == x0).all() and self.t_sim == t_sim:                       # Employ fast update when possible
             result = self.__fast_update(x0, u0, xr)
