@@ -189,7 +189,9 @@ The variable $x$ now contains all $N$ states over the prediction horizon and all
 
 We will start with encoding the penalties Q, R, and S into P.
 
-$$ P = \begin{bmatrix} P_x & 0 \\ 0 & P_u \end{bmatrix} $$
+```math
+ P = \begin{bmatrix} P_x & 0 \\ 0 & P_u \end{bmatrix} $$
+```
 
 $$ P_x = I^{N\times N}\otimes Q $$
 
@@ -199,7 +201,8 @@ $I$ denotes the identity matrix and $I_{-1,1}$ denotes the matrix with all zeros
 
 For $N = 5$ and $M=3$, we exemplify $Px$:
 
-$$ Px=
+```math
+Px=
 \begin{bmatrix} 
 Q & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
 0 & Q & 0 & 0 & 0 & 0 & 0 & 0 \\
@@ -211,13 +214,13 @@ Q & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
 0 & 0 & 0 & 0 & 0 & 0 & -S & R + S 
 \end{bmatrix}
 \begin{bmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ u_1 \\ u_2 \\ u_3 \end{bmatrix}
-$$
+```
 
 Our cost function also has a term linear in $x$, $q$, where we can define the cost of deviating from the reference since $x_r$ is not accounted for in $x^TPx$. We exemplify $q$ for $N=5$ and $M=3$ as:
 
-$$ 
+```math
 \begin{bmatrix} -2Qx_{r_1} \\ -2Qx_{r_2} \\ -2Qx_{r_3} \\ -2Qx_{r_4} \\ -2Qx_{r_5} \\ -2Su_{0} \\ 0 \\ 0 \end{bmatrix}
-$$
+```
 
 where $q\in\mathbb{R}^{Nn+Mm}$. We will now show that our new matrix-based structure of the cost function $J^{OSQP}$ is consistent with the summation definition of our MPC cost function $J^{MPC}$.
 
@@ -245,18 +248,21 @@ A final note for the cost function calculation is that in our implementation, we
 
 Now we must encode the four constraint conditions for the MPC problem into a single set of inequalities $l\leq Ax\leq u$. Two of the constraints are equalities and two are inequalities. The two inequality constraints describe the upper and lower bounds defined for the state and input variables.
 
-$$ l_{ineq} = \begin{bmatrix} 1^N \otimes x_{min} \\ 1^M \otimes u_{min} \end{bmatrix} $$
-
-$$ u_{ineq} = \begin{bmatrix} 1^N \otimes x_{max} \\ 1^M \otimes u_{max} \end{bmatrix} $$
-
+```math
+ l_{ineq} = \begin{bmatrix} 1^N \otimes x_{min} \\ 1^M \otimes u_{min} \end{bmatrix} 
+```
+```math
+ u_{ineq} = \begin{bmatrix} 1^N \otimes x_{max} \\ 1^M \otimes u_{max} \end{bmatrix} 
+```
 which makes $l_{ineq},u_{ineq}\in\mathbb{R}^{Nn+Mm}$. Then we define $A_{ineq}=I^{(Nn+Mm)\times(Nn+Mm)}$. So we now have the constraint equation:
 
 $$ l_{ineq} \leq A_{ineq} x \leq u_{ineq} $$
 
 This satisfies constraints on the values for the state and input, but we must also let the solver know that $x_{i+1}= Ax_i +Bu_i$. So, we will use matrix operations to force the equation $0=Ax_i+Bu_i-x_{i+1}=0$. So we define:
 
-$$ l_{eq} = u_{eq} = \begin{bmatrix} x_0 \\ 0^{(N-1)n+Mm} \end{bmatrix} $$
-
+```math
+ l_{eq} = u_{eq} = \begin{bmatrix} x_0 \\ 0^{(N-1)n+Mm} \end{bmatrix} 
+```
 $$ A_{eq} = \begin{bmatrix} A_x & B_u \end{bmatrix} $$
 
 where $A_x$ will describe $Ax_i$ and $B_u$ will describe $Bu_i$. Before we continue, we make an aside to describe a speed-up used to simplify the amount of computation required by the solver. Instead of defining an $x_i$ and $u_i$ for every system time step, we define it for only every simulation or control time step. For example:
@@ -277,11 +283,12 @@ Now we are ready to define $A_x$ and $B_u$ for $A_{eq}$.
 
 $$ A_x = I^{N\times N} \otimes I^{n\times n} - I_{-1}^{N\times N} \otimes A_{x_s} $$
 
-$$ B_u = \begin{bmatrix} 0^{1\times M} \\ I^{M\times M} \\ \begin{bmatrix} 0^{(N-M-1)\times(M-1)} & 1^{N-M-1} \end{bmatrix}  \end{bmatrix} \otimes A_{u_s}B $$
-
+```math
+ B_u = \begin{bmatrix} 0^{1\times M} \\ I^{M\times M} \\ \begin{bmatrix} 0^{(N-M-1)\times(M-1)} & 1^{N-M-1} \end{bmatrix}  \end{bmatrix} \otimes A_{u_s}B 
+```
 How this produces the equality constraints is much clearer if we exemplify $A_{eq}$ for $N=5$ and $M=3$:
 
-$$ 
+```math
 A_{eq}x=
 \begin{bmatrix} 
 I & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
@@ -290,16 +297,17 @@ I & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
 0 & 0 & -A_{x_s} & I & 0 & 0 & 0 & A_{u_s}B \\
 0 & 0 & 0 & -A_{x_s} & I & 0 & 0 & A_{u_s}B \\
 \end{bmatrix}
-\begin{bmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ u_1 \\ u_2 \\ u_3 \end{bmatrix}= 
+\begin{bmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ u_1 \\ u_2 \\ u_3 \end{bmatrix}=
 \begin{bmatrix} x_0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{bmatrix}=l_{eq}=u_{eq}
-$$
+```
 
 We can see that as standard with a control horizon, after we have computed $M$ control inputs, the final steps in the prediction horizon will keep the last input constant. This matrix will also enforce that $x_1=x_0$. 
 
 To combine the equality constraints and inequality constraints into one, we simply stack vertically:
 
-$$ l = \begin{bmatrix} l_{eq} \\ l_{ineq} \end{bmatrix}, u = \begin{bmatrix} u_{eq} \\ u_{ineq} \end{bmatrix}, A = \begin{bmatrix} A_{eq} \\ A_{ineq} \end{bmatrix} $$
-
+```math
+ l = \begin{bmatrix} l_{eq} \\ l_{ineq} \end{bmatrix}, u = \begin{bmatrix} u_{eq} \\ u_{ineq} \end{bmatrix}, A = \begin{bmatrix} A_{eq} \\ A_{ineq} \end{bmatrix} $$
+```
 $$ l \leq Ax \leq u $$
 
 with $l,u\in\mathbb{R}^{2Nn+Mm}$ and $A\in\mathbb{R}^{(2Nn+Mm)\times(Nn+Mm)}$.
