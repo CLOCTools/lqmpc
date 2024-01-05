@@ -17,10 +17,10 @@ We make use of [OSQP](https://osqp.org/docs/index.html) in order to calculate op
 
 
 ```python
+import lqmpc
 import numpy as np
 from scipy import sparse
 import matplotlib.pyplot as plt
-import lqmpc
 ```
 
 #### Dynamics
