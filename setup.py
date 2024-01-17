@@ -3,7 +3,7 @@
 from setuptools import find_packages, setup
 
 setup(
-    name='src',
-    packages=find_packages(),
+    # name='lqmpc',
+    packages=['lqmpc'],
     install_requires=['osqp','matplotlib']
 )
