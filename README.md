@@ -1,4 +1,4 @@
----
+*****
 ## Linear Quadratic Model Predictive Control
 
 *Perform Model Predictive Control (MPC) on linear system dynamics by converting the MPC optimization problem to a quadratic cost problem. The new problem is optimized using the Operator Splitting Quadratic Program (OSQP).*
@@ -7,7 +7,7 @@
 **SIP Lab**   
 **Georgia Institute of Technology**  
 
----
+*****
 
 ### Installation
 Either clone repo and
@@ -314,3 +314,10 @@ with $l,u\in\mathbb{R}^{2Nn+Mm}$ and $A\in\mathbb{R}^{(2Nn+Mm)\times(Nn+Mm)}$.
 
 ---
 
+
+### Updating this README
+The source is the Jupyter notebook `examples/README.ipynb`.
+To generate markdown, run this from the project root directory:
+```bash
+jupyter nbconvert examples/README.ipynb --to markdown --output-dir .    
+```
