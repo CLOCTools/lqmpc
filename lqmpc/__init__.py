@@ -54,6 +54,8 @@ class LQMPC:
             raise ValueError('The matrix D must be of size (o x m).')
 
         self.t = []                                                             # Time 
+        self.x = []                                                             # State
+        self.xr = []                                                            # Target state
         self.y = []                                                             # Output
         self.yr = []                                                            # Target output
         self.u = []                                                             # Input
@@ -260,10 +262,14 @@ class LQMPC:
         for i in range(self.n_sim):
             if self.t == []:
                 self.t.append(0)
-                self.u.append(u0)                                      
+                self.u.append(u0) 
+                self.x.append(xi)
+                self.xr.append(xr[:,i])                                    
             else:
                 self.t.append(self.t[-1]+self.t_step)                           # Save time value
                 self.u.append(ui)                                               # Save input value
+                self.x.append(xi)                                               # Save state value
+                self.xr.append(xr[:,i])                                         # Save target state value
             yr = (self.C+self.D@np.linalg.pinv(self.B)@(np.eye(self.n)-self.A))@xr[:,i]           
             self.yr.append(yr)                                                  # Save target output value
             self.y.append(self.C@xi+self.D@ui)                                  # Save output value
@@ -328,6 +334,8 @@ class LQMPC:
     def reset(self):
         # Basic function to clear saved variables from prior simulations
         self.t = []                                                             # Time 
+        self.x = []                                                             # State
+        self.xr = []                                                            # Target state
         self.y = []                                                             # Output
         self.yr = []                                                            # Target output
         self.u = []                                                             # Input
