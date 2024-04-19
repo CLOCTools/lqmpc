@@ -69,7 +69,7 @@ $$ u_{min} \leq u \leq u_{max} $$
 
 $$ x_1 = x_0 $$
 
-where $ N $ is the prediction horizon, $M$ the control horizon, $Q$ the state penalty matrix, $R$ the input penalty matrix, $S$ the differential input penalty matrix, $x_r$ the reference state, and $x_0$ a varying initial state provided on each step. To calculate the first differential input $\Delta u_1=u_1-u_0$, an initial input $u_0$ will be defined only for the calculation of cost.
+where $N$ is the prediction horizon, $M$ the control horizon, $Q$ the state penalty matrix, $R$ the input penalty matrix, $S$ the differential input penalty matrix, $x_r$ the reference state, and $x_0$ a varying initial state provided on each step. To calculate the first differential input $\Delta u_1=u_1-u_0$, an initial input $u_0$ will be defined only for the calculation of cost.
 
 
 ```python
@@ -264,7 +264,7 @@ $$ l_{ineq} \leq A_{ineq} x \leq u_{ineq} $$
 
 This satisfies constraints on the values for the state and input, but we must also let the solver know that $x_{i+1}= Ax_i +Bu_i$. So, we will use matrix operations to force the equation $0=Ax_i+Bu_i-x_{i+1}=0$. So we define:
 
-$$ l_{eq} = u_{eq} = \begin{bmatrix} x_0 \\ 0^{(N-1)n+Mm} \end{bmatrix} $$
+$$ l_{eq} = u_{eq} = \begin{bmatrix} -x_0 \\ 0^{(N-1)n+Mm} \end{bmatrix} $$
 
 $$ A_{eq} = \begin{bmatrix} A_x & B_u \end{bmatrix} $$
 
@@ -284,7 +284,7 @@ $$ u_{n_{sim}} = \left(\sum_{i=0}^{n_{sim}-2} A^i\right)Bu_1 = A_{u_s} Bu_1$$
 
 Now we are ready to define $A_x$ and $B_u$ for $A_{eq}$.
 
-$$ A_x = I^{N\times N} \otimes I^{n\times n} - I_{-1}^{N\times N} \otimes A_{x_s} $$
+$$ A_x = I^{N\times N} \otimes -I^{n\times n} + I_{-1}^{N\times N} \otimes A_{x_s} $$
 
 $$ B_u = \begin{bmatrix} 0^{1\times M} \\ I^{M\times M} \\ \begin{bmatrix} 0^{(N-M-1)\times(M-1)} & 1^{N-M-1} \end{bmatrix}  \end{bmatrix} \otimes A_{u_s}B $$
 
@@ -292,14 +292,14 @@ How this produces the equality constraints is much clearer if we exemplify $A_{e
 
 $$ A_{eq}x=
 \begin{bmatrix} 
-I & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
--A_{x_s} & I & 0 & 0 & 0 & A_{u_s}B & 0 & 0 \\
-0 & -A_{x_s} & I & 0 & 0 & 0 & A_{u_s}B & 0 \\
-0 & 0 & -A_{x_s} & I & 0 & 0 & 0 & A_{u_s}B \\
-0 & 0 & 0 & -A_{x_s} & I & 0 & 0 & A_{u_s}B 
+-I & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+A_{x_s} & -I & 0 & 0 & 0 & A_{u_s}B & 0 & 0 \\
+0 & A_{x_s} & -I & 0 & 0 & 0 & A_{u_s}B & 0 \\
+0 & 0 & A_{x_s} & -I & 0 & 0 & 0 & A_{u_s}B \\
+0 & 0 & 0 & A_{x_s} & -I & 0 & 0 & A_{u_s}B 
 \end{bmatrix}
 \begin{bmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ u_1 \\ u_2 \\ u_3 \end{bmatrix}= 
-\begin{bmatrix} x_0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{bmatrix}=l_{eq}=u_{eq}
+\begin{bmatrix} -x_0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{bmatrix}=l_{eq}=u_{eq}
 $$
 
 We can see that as standard with a control horizon, after we have computed $M$ control inputs, the final steps in the prediction horizon will keep the last input constant. This matrix will also enforce that $x_1=x_0$. 
