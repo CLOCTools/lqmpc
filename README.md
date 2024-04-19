@@ -278,9 +278,9 @@ $$ x_3 = A^2x_1+(A+I)Bu_1 $$
 
 If our simulation step takes $n_{sim}$ many system time steps, we define:
 
-$$ x_{n_{sim}} = A^{n_{sim}-1}x_1 = A_{x_s}x_1 $$
+$$ x_{n_{sim}+1} = A^{n_{sim}}x_1 = A_{x_s}x_1 $$
 
-$$ u_{n_{sim}} = \left(\sum_{i=0}^{n_{sim}-2} A^i\right)Bu_1 = A_{u_s} Bu_1$$
+$$ u_{n_{sim}+1} = \left(\sum_{i=0}^{n_{sim}-1} A^i\right)Bu_1 = A_{u_s} Bu_1$$
 
 Now we are ready to define $A_x$ and $B_u$ for $A_{eq}$.
 
