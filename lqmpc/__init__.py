@@ -187,9 +187,9 @@ class LQMPC:
         ueq = leq                                                               # Force equality with upper bound
 
         # Update x over n_sim many steps
-        Axs = np.linalg.matrix_power(self.A,self.n_sim-1)                       # State multiplier            
+        Axs = np.linalg.matrix_power(self.A,self.n_sim)                         # State multiplier            
         Aus = 0                                                                 # Input multiplier
-        for i in range(self.n_sim-1): 
+        for i in range(self.n_sim): 
             Aus += np.linalg.matrix_power(self.A,i)              
 
         # Ax + Bu = 0
