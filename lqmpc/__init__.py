@@ -63,6 +63,7 @@ class LQMPC:
 
         self.xi = None                                                          # Current state
         self.ui = None                                                          # Current input
+        self.t_sim = None                                                       # Length of previously solved step
     
 
     def set_control(self, Q=None, R=None, S=None, N=25, M=20):
